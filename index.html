@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enlightenment Desktop Preview</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="desktop" class="desktop" aria-label="Enlightenment desktop preview">
+    <div class="wallpaper" role="presentation"></div>
+
+    <!-- Desktop icons (EFM favorites / mounts) — labels sit on dark chips like official E -->
+    <div class="desktop-icons" id="desktop-icons" aria-label="Desktop icons">
+      <button type="button" class="desk-icon" data-place="home" title="Home">
+        <img class="desk-icon-img" src="assets/places/desk-home.svg" alt="" draggable="false" />
+        <span class="desk-label">Home</span>
+      </button>
+      <button type="button" class="desk-icon" data-place="root" title="Root">
+        <img class="desk-icon-img" src="assets/places/desk-root.svg" alt="" draggable="false" />
+        <span class="desk-label">Root</span>
+      </button>
+      <button type="button" class="desk-icon" data-place="tmp" title="Temp">
+        <img class="desk-icon-img" src="assets/places/desk-temp.svg" alt="" draggable="false" />
+        <span class="desk-label">Temp</span>
+      </button>
+    </div>
+
+    <!-- ========== Main menu (cascading) ========== -->
+    <div class="main-menu" id="main-menu" role="menu" aria-label="Main" hidden>
+      <div class="menu-panel" id="menu-root">
+        <div class="menu-title">Main</div>
+        <button type="button" class="menu-item has-sub" data-sub="favorites" role="menuitem">
+          <img src="assets/places/user-bookmarks.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Favorite Applications</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="applications" role="menuitem">
+          <img src="assets/menu/preferences-desktop.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Applications</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="navigate" role="menuitem">
+          <img src="assets/places/folder-yellow.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Navigate…</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item" data-action="everything" role="menuitem">
+          <img src="assets/actions/search-symbolic.svg" alt="" class="menu-ico sym" draggable="false" />
+          <span>Run Everything</span>
+        </button>
+        <button type="button" class="menu-item" data-action="screenshot" role="menuitem">
+          <img src="assets/apps/screenshot.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Take Screenshot</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="desktop-menu" role="menuitem">
+          <img src="assets/menu/preferences-desktop.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Desktop</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="windows" role="menuitem">
+          <img src="assets/menu/applications-system.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Windows</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="enlightenment" role="menuitem">
+          <img src="assets/apps/enlightenment.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Enlightenment</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="settings" role="menuitem">
+          <img src="assets/apps/settings.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Settings</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item" data-action="system" role="menuitem">
+          <img src="assets/status/system-shutdown.svg" alt="" class="menu-ico" draggable="false" />
+          <span>System</span>
+        </button>
+      </div>
+
+      <!-- Submenus (positioned by JS) -->
+      <div class="menu-panel submenu" id="sub-favorites" hidden>
+        <button type="button" class="menu-item" data-app="files" role="menuitem">
+          <img src="assets/apps/file-manager.svg" alt="" class="menu-ico" draggable="false" />
+          <span>File Manager</span>
+        </button>
+        <button type="button" class="menu-item" data-app="terminology" role="menuitem">
+          <img src="assets/apps/terminology.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Terminology</span>
+        </button>
+        <button type="button" class="menu-item" data-app="firefox" role="menuitem">
+          <img src="assets/apps/firefox.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Firefox</span>
+        </button>
+        <button type="button" class="menu-item" data-app="settings" role="menuitem">
+          <img src="assets/apps/settings.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Settings Panel</span>
+        </button>
+      </div>
+
+      <div class="menu-panel submenu" id="sub-applications" hidden>
+        <button type="button" class="menu-item has-sub" data-sub="cat-accessories" role="menuitem">
+          <img src="assets/menu/applications-accessories.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Accessories</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="cat-development" role="menuitem">
+          <img src="assets/menu/applications-development.png" alt="" class="menu-ico" draggable="false" />
+          <span>Development</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="cat-graphics" role="menuitem">
+          <img src="assets/menu/applications-graphics.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Graphics</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="cat-internet" role="menuitem">
+          <img src="assets/menu/applications-internet.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Internet</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="cat-office" role="menuitem">
+          <img src="assets/menu/applications-office.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Office</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="cat-multimedia" role="menuitem">
+          <img src="assets/menu/applications-multimedia.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Sound &amp; Video</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item has-sub" data-sub="cat-system" role="menuitem">
+          <img src="assets/menu/applications-system.svg" alt="" class="menu-ico" draggable="false" />
+          <span>System</span>
+          <span class="menu-arrow">›</span>
+        </button>
+      </div>
+
+      <div class="menu-panel submenu" id="sub-navigate" hidden>
+        <button type="button" class="menu-item" data-place="home" role="menuitem">
+          <img src="assets/places/user-home.png" alt="" class="menu-ico" draggable="false" />
+          <span>Home</span>
+        </button>
+        <button type="button" class="menu-item" data-place="desktop" role="menuitem">
+          <img src="assets/places/user-desktop.png" alt="" class="menu-ico" draggable="false" />
+          <span>Desktop</span>
+        </button>
+        <button type="button" class="menu-item" data-place="root" role="menuitem">
+          <img src="assets/places/computer.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Root</span>
+        </button>
+        <button type="button" class="menu-item" data-place="tmp" role="menuitem">
+          <img src="assets/places/temp.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Temp</span>
+        </button>
+        <button type="button" class="menu-item" data-place="documents" role="menuitem">
+          <img src="assets/places/folder-documents.png" alt="" class="menu-ico" draggable="false" />
+          <span>Documents</span>
+        </button>
+        <button type="button" class="menu-item" data-place="downloads" role="menuitem">
+          <img src="assets/places/folder-download.png" alt="" class="menu-ico" draggable="false" />
+          <span>Downloads</span>
+        </button>
+      </div>
+
+      <div class="menu-panel submenu" id="sub-desktop-menu" hidden>
+        <button type="button" class="menu-item" role="menuitem">
+          <img src="assets/menu/preferences-desktop.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Virtual</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item" role="menuitem">
+          <img src="assets/menu/preferences-desktop.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Shelves</span>
+          <span class="menu-arrow">›</span>
+        </button>
+        <button type="button" class="menu-item" role="menuitem">
+          <img src="assets/places/user-desktop.png" alt="" class="menu-ico" draggable="false" />
+          <span>Change Wallpaper</span>
+        </button>
+        <div class="menu-sep"></div>
+        <button type="button" class="menu-item" role="menuitem">
+          <img src="assets/menu/applications-system.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Show/Hide All Windows</span>
+        </button>
+      </div>
+
+      <div class="menu-panel submenu" id="sub-windows" hidden>
+        <button type="button" class="menu-item dim" role="menuitem">
+          <span>No windows</span>
+        </button>
+        <div class="menu-sep"></div>
+        <button type="button" class="menu-item" role="menuitem">
+          <span>Cleanup Windows</span>
+        </button>
+      </div>
+
+      <div class="menu-panel submenu" id="sub-enlightenment" hidden>
+        <button type="button" class="menu-item" data-action="about" role="menuitem">
+          <img src="assets/apps/enlightenment.svg" alt="" class="menu-ico" draggable="false" />
+          <span>About</span>
+        </button>
+        <button type="button" class="menu-item" role="menuitem">
+          <img src="assets/menu/preferences-desktop.svg" alt="" class="menu-ico" draggable="false" />
+          <span>About Theme</span>
+        </button>
+        <button type="button" class="menu-item" role="menuitem">
+          <span>Report Bug</span>
+        </button>
+        <div class="menu-sep"></div>
+        <button type="button" class="menu-item" role="menuitem">
+          <img src="assets/status/system-reboot.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Restart</span>
+        </button>
+        <button type="button" class="menu-item" role="menuitem">
+          <span>Exit</span>
+        </button>
+      </div>
+
+      <div class="menu-panel submenu" id="sub-settings" hidden>
+        <button type="button" class="menu-item" data-app="settings" role="menuitem">
+          <img src="assets/apps/settings.svg" alt="" class="menu-ico" draggable="false" />
+          <span>Settings Panel</span>
+        </button>
+        <button type="button" class="menu-item" role="menuitem"><span>Composite</span></button>
+        <button type="button" class="menu-item" role="menuitem"><span>Gadgets</span></button>
+        <button type="button" class="menu-item" role="menuitem"><span>Modules</span></button>
+        <button type="button" class="menu-item" role="menuitem"><span>Palette</span></button>
+        <button type="button" class="menu-item" role="menuitem"><span>Screen Setup</span></button>
+        <button type="button" class="menu-item" role="menuitem"><span>Shelves</span></button>
+        <button type="button" class="menu-item" role="menuitem"><span>Theme</span></button>
+        <button type="button" class="menu-item" role="menuitem"><span>Wallpaper</span></button>
+        <button type="button" class="menu-item has-sub" role="menuitem">
+          <span>All</span>
+          <span class="menu-arrow">›</span>
+        </button>
+      </div>
+
+      <!-- App category leaves -->
+      <div class="menu-panel submenu" id="sub-cat-accessories" hidden></div>
+      <div class="menu-panel submenu" id="sub-cat-development" hidden></div>
+      <div class="menu-panel submenu" id="sub-cat-graphics" hidden></div>
+      <div class="menu-panel submenu" id="sub-cat-internet" hidden></div>
+      <div class="menu-panel submenu" id="sub-cat-office" hidden></div>
+      <div class="menu-panel submenu" id="sub-cat-multimedia" hidden></div>
+      <div class="menu-panel submenu" id="sub-cat-system" hidden></div>
+    </div>
+
+    <!-- ========== Everything launcher ========== -->
+    <div class="everything" id="everything" role="dialog" aria-label="Everything" hidden>
+      <div class="everything-card">
+        <div class="everything-search-wrap">
+          <img class="sym" src="assets/actions/search-symbolic.svg" alt="" draggable="false" />
+          <input
+            type="search"
+            id="everything-search"
+            class="everything-search"
+            placeholder="Type to search…"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Search applications, files, windows"
+          />
+        </div>
+        <div class="everything-tabs" role="tablist">
+          <button type="button" class="ev-tab active" data-tab="apps" role="tab">Applications</button>
+          <button type="button" class="ev-tab" data-tab="files" role="tab">Files</button>
+          <button type="button" class="ev-tab" data-tab="windows" role="tab">Windows</button>
+          <button type="button" class="ev-tab" data-tab="settings" role="tab">Settings</button>
+        </div>
+        <div class="everything-results" id="everything-results" role="listbox"></div>
+        <p class="everything-empty" id="everything-empty" hidden>No matches</p>
+      </div>
+    </div>
+
+    <!-- ========== System controls (power) ========== -->
+    <div class="syscon" id="syscon" role="dialog" aria-label="System" hidden>
+      <div class="syscon-card">
+        <div class="syscon-grid">
+          <button type="button" class="syscon-item" data-action="poweroff">
+            <img src="assets/status/system-shutdown.svg" alt="" draggable="false" />
+            <span>Power Off</span>
+          </button>
+          <button type="button" class="syscon-item" data-action="suspend">
+            <img src="assets/status/system-suspend.svg" alt="" draggable="false" />
+            <span>Suspend</span>
+          </button>
+          <button type="button" class="syscon-item" data-action="lock">
+            <img src="assets/status/system-lock.svg" alt="" draggable="false" />
+            <span>Lock</span>
+          </button>
+          <button type="button" class="syscon-item" data-action="reboot">
+            <img src="assets/status/system-reboot.svg" alt="" draggable="false" />
+            <span>Reboot</span>
+          </button>
+          <button type="button" class="syscon-item dim" data-action="hibernate" disabled>
+            <img src="assets/status/system-hibernate.svg" alt="" draggable="false" />
+            <span>Hibernate</span>
+          </button>
+          <button type="button" class="syscon-item" data-action="logout">
+            <img src="assets/status/system-log-out.svg" alt="" draggable="false" />
+            <span>Log Out</span>
+          </button>
+        </div>
+        <button type="button" class="syscon-cancel" id="syscon-cancel">Cancel</button>
+      </div>
+    </div>
+
+    <!-- ========== About dialog ========== -->
+    <div class="about-dialog" id="about-dialog" role="dialog" aria-label="About Enlightenment" hidden>
+      <div class="e-window about-win">
+        <header class="e-titlebar">
+          <span class="e-title">About Enlightenment</span>
+          <div class="e-window-controls">
+            <button type="button" class="e-wc e-min" title="Minimize" aria-label="Minimize"><img src="assets/actions/win-min.svg" alt="" draggable="false" /></button>
+            <button type="button" class="e-wc e-max" title="Maximize" aria-label="Maximize"><img src="assets/actions/win-max.svg" alt="" draggable="false" /></button>
+            <button type="button" class="e-wc e-close" id="about-close" title="Close" aria-label="Close"><img src="assets/actions/win-close.svg" alt="" draggable="false" /></button>
+          </div>
+        </header>
+        <div class="about-body">
+          <img class="about-logo" src="assets/apps/enlightenment.png" alt="" draggable="false" />
+          <h1>Enlightenment</h1>
+          <div class="about-ver">0.27.1</div>
+          <p class="about-copy">
+            Copyright © 2000–2026, by the<br />
+            Enlightenment Development Team
+          </p>
+          <p class="about-note">
+            We hope you enjoy using this software as much as we enjoyed writing it.
+          </p>
+          <p class="about-link">https://www.enlightenment.org</p>
+          <button type="button" class="e-btn" id="about-close-btn">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== Clock / calendar popover ========== -->
+    <div class="tray-popover calendar-popover" id="calendar-popover" role="dialog" aria-label="Calendar" hidden>
+      <div class="cal-header">
+        <button type="button" class="cal-nav" id="cal-prev" aria-label="Previous month">‹</button>
+        <span class="cal-month" id="cal-month-label">July 2026</span>
+        <button type="button" class="cal-nav" id="cal-next" aria-label="Next month">›</button>
+      </div>
+      <div class="cal-weekdays" aria-hidden="true">
+        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+
+    <!-- ========== Mixer popover ========== -->
+    <div class="tray-popover mixer-popover" id="mixer-popover" role="dialog" aria-label="Mixer" hidden>
+      <div class="mixer-title">Mixer</div>
+      <div class="mixer-row">
+        <img class="sym" src="assets/status/audio-volume-medium-symbolic.svg" alt="" id="mixer-icon" draggable="false" />
+        <input type="range" class="mixer-slider" id="volume-slider" min="0" max="100" value="62" aria-label="Volume" />
+        <span class="mixer-pct" id="volume-pct">62%</span>
+      </div>
+      <div class="mixer-vu" aria-hidden="true">
+        <div class="mixer-vu-fill" id="mixer-vu-fill"></div>
+      </div>
+      <div class="mixer-streams">
+        <div class="mixer-stream">
+          <img src="assets/apps/firefox.svg" alt="" draggable="false" />
+          <span>Firefox</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== Network (ConnMan) popover ========== -->
+    <div class="tray-popover net-popover" id="net-popover" role="dialog" aria-label="Network" hidden>
+      <div class="mixer-title">Network</div>
+      <div class="net-row">
+        <img class="sym" src="assets/status/network-wired-symbolic.svg" alt="" draggable="false" />
+        <div>
+          <div class="net-name">Wired</div>
+          <div class="net-sub">Connected · eth0</div>
+        </div>
+      </div>
+      <div class="menu-sep"></div>
+      <button type="button" class="popover-btn">Wi-Fi Networks…</button>
+    </div>
+
+    <!-- ========== Bluetooth popover ========== -->
+    <div class="tray-popover bt-popover" id="bt-popover" role="dialog" aria-label="Bluetooth" hidden>
+      <div class="mixer-title">Bluetooth</div>
+      <div class="net-row">
+        <img class="sym" src="assets/status/bluetooth-active-symbolic.svg" alt="" draggable="false" />
+        <div>
+          <div class="net-name">Bluetooth</div>
+          <div class="net-sub">On · Visible as Enlightenment-PC</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== Battery popover ========== -->
+    <div class="tray-popover bat-popover" id="bat-popover" role="dialog" aria-label="Battery" hidden>
+      <div class="mixer-title">Battery</div>
+      <div class="net-row">
+        <img class="sym" src="assets/status/battery-full-charged-symbolic.svg" alt="" draggable="false" />
+        <div>
+          <div class="net-name">92% · Charging</div>
+          <div class="net-sub">AC Power · ~3:40 remaining</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== EFM (File Manager) window ========== -->
+    <div class="efm-window e-window" id="efm-window" role="dialog" aria-label="Home" hidden>
+      <header class="e-titlebar efm-titlebar">
+        <div class="e-titlebar-left">
+          <img class="e-title-icon" id="efm-title-icon" src="assets/places/side-home.svg" alt="" draggable="false" />
+          <span class="e-title" id="efm-title">Home</span>
+        </div>
+        <div class="e-window-controls">
+          <button type="button" class="e-wc e-min" title="Minimize" aria-label="Minimize"><img src="assets/actions/win-min.svg" alt="" draggable="false" /></button>
+          <button type="button" class="e-wc e-max" id="efm-max" title="Maximize" aria-label="Maximize"><img src="assets/actions/win-max.svg" alt="" draggable="false" /></button>
+          <button type="button" class="e-wc e-close" id="efm-close" title="Close" aria-label="Close"><img src="assets/actions/win-close.svg" alt="" draggable="false" /></button>
+        </div>
+      </header>
+
+      <div class="efm-toolbar" aria-label="Navigation">
+        <div class="efm-tb-group">
+          <button type="button" class="efm-tb-btn" id="efm-back" title="Back" aria-label="Back" disabled>
+            <img src="assets/actions/efm-back.svg" alt="" draggable="false" />
+          </button>
+          <button type="button" class="efm-tb-btn" id="efm-forward" title="Forward" aria-label="Forward" disabled>
+            <img src="assets/actions/efm-forward.svg" alt="" draggable="false" />
+          </button>
+          <button type="button" class="efm-tb-btn" id="efm-up" title="Up" aria-label="Parent folder" disabled>
+            <img src="assets/actions/efm-up.svg" alt="" draggable="false" />
+          </button>
+          <button type="button" class="efm-tb-btn" id="efm-refresh" title="Refresh" aria-label="Refresh">
+            <img src="assets/actions/efm-refresh.svg" alt="" draggable="false" />
+          </button>
+          <button type="button" class="efm-tb-btn" id="efm-fav" title="Favorites" aria-label="Favorites">
+            <img src="assets/actions/efm-fav.svg" alt="" draggable="false" />
+          </button>
+        </div>
+        <div class="efm-pathbar" id="efm-pathbar" aria-label="Path">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <div class="efm-body">
+        <aside class="efm-sidebar" id="efm-sidebar" aria-label="Favorites">
+          <!-- filled by JS -->
+        </aside>
+        <div class="efm-content">
+          <div class="efm-icons" id="efm-icons" role="list" aria-label="Folder contents">
+            <!-- filled by JS -->
+          </div>
+          <p class="efm-empty" id="efm-empty" hidden>Empty</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== Terminology terminal (simple) ========== -->
+    <div class="term-window e-window" id="term-window" role="dialog" aria-label="Terminology" hidden>
+      <header class="e-titlebar">
+        <div class="e-titlebar-left">
+          <img class="e-title-icon" src="assets/apps/terminology.svg" alt="" draggable="false" />
+          <span class="e-title">Terminology</span>
+        </div>
+        <div class="e-window-controls">
+          <button type="button" class="e-wc e-min" title="Minimize"><img src="assets/actions/win-min.svg" alt="" draggable="false" /></button>
+          <button type="button" class="e-wc e-max" title="Maximize"><img src="assets/actions/win-max.svg" alt="" draggable="false" /></button>
+          <button type="button" class="e-wc e-close" id="term-close" title="Close"><img src="assets/actions/win-close.svg" alt="" draggable="false" /></button>
+        </div>
+      </header>
+      <div class="term-body" id="term-body" tabindex="0">
+        <div class="term-line"><span class="term-prompt">user@enlightenment ~ $</span> <span class="term-cmd">uname -a</span></div>
+        <div class="term-line term-out">Linux enlightenment 6.8.0-generic #1 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux</div>
+        <div class="term-line"><span class="term-prompt">user@enlightenment ~ $</span> <span class="term-cmd">echo "Welcome to Enlightenment"</span></div>
+        <div class="term-line term-out">Welcome to Enlightenment</div>
+        <div class="term-line"><span class="term-prompt">user@enlightenment ~ $</span> <span class="term-cursor">█</span></div>
+      </div>
+    </div>
+
+    <!-- ========== Shelf (bottom panel) — solid #404040 bar matching official shots ========== -->
+    <footer class="shelf" id="shelf" role="toolbar" aria-label="Shelf">
+      <div class="shelf-left">
+        <button type="button" class="shelf-btn start-btn" id="start-btn" title="Main menu" aria-label="Main menu" aria-haspopup="menu" aria-expanded="false">
+          <img src="assets/status/start-arrow.svg" alt="" draggable="false" />
+        </button>
+
+        <div class="pager" id="pager" role="tablist" aria-label="Virtual desktops">
+          <button type="button" class="pager-desk active" data-desk="0" role="tab" aria-selected="true" title="Desktop 0">
+            <span class="pager-preview"><span class="pager-win"></span></span>
+          </button>
+          <button type="button" class="pager-desk" data-desk="1" role="tab" aria-selected="false" title="Desktop 1">
+            <span class="pager-preview"></span>
+          </button>
+          <button type="button" class="pager-desk" data-desk="2" role="tab" aria-selected="false" title="Desktop 2">
+            <span class="pager-preview"></span>
+          </button>
+          <button type="button" class="pager-desk" data-desk="3" role="tab" aria-selected="false" title="Desktop 3">
+            <span class="pager-preview"></span>
+          </button>
+        </div>
+
+        <div class="ibar" id="ibar" aria-label="IBar">
+          <button type="button" class="ibar-btn" data-app="files" title="File Manager">
+            <img src="assets/apps/ibar-files.svg" alt="" draggable="false" />
+            <span class="ibar-indicator" hidden></span>
+          </button>
+          <button type="button" class="ibar-btn" data-app="mail" title="Mail">
+            <img src="assets/apps/mail.svg" alt="" draggable="false" />
+            <span class="ibar-indicator" hidden></span>
+          </button>
+          <button type="button" class="ibar-btn" data-app="firefox" title="Firefox">
+            <img src="assets/apps/firefox.svg" alt="" draggable="false" />
+            <span class="ibar-indicator" hidden></span>
+          </button>
+          <button type="button" class="ibar-btn" data-app="terminology" title="Terminology">
+            <img src="assets/apps/terminology.svg" alt="" draggable="false" />
+            <span class="ibar-indicator" hidden></span>
+          </button>
+          <button type="button" class="ibar-btn" data-app="writer" title="LibreOffice Writer">
+            <img src="assets/apps/org.libreoffice.LibreOffice.writer.png" alt="" draggable="false" />
+            <span class="ibar-indicator" hidden></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="shelf-spacer" aria-hidden="true"></div>
+
+      <div class="shelf-right">
+        <button type="button" class="shelf-gadget" id="net-btn" title="Network">
+          <img src="assets/status/shelf-net.svg" alt="" draggable="false" />
+        </button>
+        <button type="button" class="shelf-gadget" id="bat-btn" title="Battery 92%">
+          <img src="assets/status/shelf-battery.svg" alt="" draggable="false" />
+        </button>
+        <button type="button" class="shelf-gadget clock-gadget" id="clock-btn" title="Clock">
+          <span id="clock-text">05:47 PM</span>
+        </button>
+        <button type="button" class="shelf-gadget" id="mixer-btn" title="Mixer">
+          <img src="assets/status/shelf-volume.svg" alt="" id="shelf-vol-icon" draggable="false" />
+        </button>
+        <button type="button" class="shelf-gadget" id="bt-btn" title="Bluetooth">
+          <img src="assets/status/shelf-bt.svg" alt="" draggable="false" />
+        </button>
+        <button type="button" class="shelf-gadget" id="syscon-btn" title="System">
+          <img src="assets/status/shelf-power.svg" alt="" draggable="false" />
+        </button>
+      </div>
+    </footer>
+
+    <!-- Toast for non-interactive actions -->
+    <div class="toast" id="toast" hidden></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
