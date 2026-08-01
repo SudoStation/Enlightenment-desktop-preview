@@ -927,6 +927,10 @@ function initEvents() {
   document.addEventListener("keydown", (e) => {
     // Alt+Esc → Everything (Enlightenment default)
     if (e.key === "Escape") {
+    if (typeof startOverlay !== "undefined" && startOverlay && !startOverlay.hidden) {
+      /* Keep overlay until they choose fullscreen or continue */
+      return;
+    }
       if (!everything.hidden) {
         closeEverything();
         return;
@@ -969,3 +973,44 @@ function init() {
 }
 
 init();
+
+/* ---------- Start overlay / fullscreen ---------- */
+
+const startOverlay = document.getElementById("start-overlay");
+const startFullscreenBtn = document.getElementById("start-fullscreen-btn");
+const startSkipBtn = document.getElementById("start-skip-btn");
+
+function dismissStartOverlay() {
+  if (startOverlay) startOverlay.hidden = true;
+}
+
+async function enterFullscreenPreview() {
+  const target = document.documentElement;
+  try {
+    if (target.requestFullscreen) await target.requestFullscreen();
+    else if (target.webkitRequestFullscreen) await target.webkitRequestFullscreen();
+    else if (target.msRequestFullscreen) await target.msRequestFullscreen();
+  } catch {
+    /* Browser denied or unsupported — still enter the mockup */
+  }
+  dismissStartOverlay();
+}
+
+if (startFullscreenBtn) {
+  startFullscreenBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    enterFullscreenPreview();
+  });
+}
+
+if (startSkipBtn) {
+  startSkipBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dismissStartOverlay();
+  });
+}
+
+if (startOverlay) {
+  startOverlay.addEventListener("click", (e) => e.stopPropagation());
+  startOverlay.querySelector(".start-overlay-card")?.addEventListener("click", (e) => e.stopPropagation());
+}

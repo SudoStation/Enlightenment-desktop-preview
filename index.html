@@ -11,7 +11,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div id="desktop" class="desktop" aria-label="Enlightenment desktop preview">
+    <!-- Start overlay: dev note + fullscreen (must be user-activated) -->
+  <div class="start-overlay" id="start-overlay" role="dialog" aria-modal="true" aria-labelledby="start-overlay-title">
+    <div class="start-overlay-card">
+      <div class="start-overlay-brand">
+        <img src="docs/favicon/Enlightenment.png" alt="" class="start-overlay-logo" draggable="false" />
+        <div>
+          <h1 class="start-overlay-heading" id="start-overlay-title">Enlightenment Desktop Preview</h1>
+          <p class="start-overlay-sub">Default Dark theme</p>
+        </div>
+      </div>
+
+      <p class="start-overlay-note">This mockup is still being developed and may not be entirely accurate at this stage.</p>
+
+      <button type="button" class="start-overlay-btn" id="start-fullscreen-btn">
+        Go fullscreen
+      </button>
+      <button type="button" class="start-overlay-skip" id="start-skip-btn">
+        Continue without fullscreen
+      </button>
+    </div>
+  </div>
+
+<div id="desktop" class="desktop" aria-label="Enlightenment desktop preview">
     <div class="wallpaper" role="presentation"></div>
 
     <!-- Desktop icons (EFM favorites / mounts) — labels sit on dark chips like official E -->
